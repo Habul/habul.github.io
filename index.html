@@ -1,12 +1,24 @@
 <!DOCTYPE HTML>
 
-<html>
+<html lang="en">
 
 <head>
-	<title>Shihabul Millah</title>
+	<title>Shihabul Millah &mdash; SAP ABAP &amp; Web Developer</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="Shihabul Millah — SAP ABAP Consultant, Web Developer, and IT Enthusiast. Get in touch via LinkedIn, GitHub, email, or WhatsApp." />
+	<meta name="author" content="Shihabul Millah" />
+	<meta name="theme-color" content="#348cb2" />
+	<meta property="og:title" content="Shihabul Millah" />
+	<meta property="og:description" content="SAP ABAP Consultant • Web Developer • IT Enthusiast" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://habul.github.io/" />
+	<meta property="og:image" content="https://habul.github.io/assets/css/images/bg.jpg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Shihabul Millah" />
+	<meta name="twitter:description" content="SAP ABAP Consultant • Web Developer • IT Enthusiast" />
 	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/enhance.css" />
 	<link rel="apple-touch-icon" sizes="180x180" href="assets/css/images/apple-touch-icon.ico" type="image/x-icon">
 	<link href="assets/css/images/favicon.ico" rel="icon" type="image/x-icon" />
 	<noscript>
@@ -17,31 +29,32 @@
 	<div id="wrapper">
 		<div id="bg"></div>
 		<div id="overlay"></div>
+		<div id="snow" aria-hidden="true"></div>
 		<div id="main">
 
 			<header id="header">
 				<h1>Shihabul Millah</h1>
-				<p>&bull;&nbsp; SAP Abap &nbsp;&bull;&nbsp; Web Developer &nbsp;&bull;&nbsp; IT Enthusiast</p>
+				<p><span id="typed">SAP ABAP Consultant</span><span class="typed-cursor">|</span></p>
 				<nav>
 					<ul>
-						<li><a href="https://twitter.com/habul" class="icon brands fa-twitter" target="_blank">
+						<li><a href="https://twitter.com/habul" class="icon brands fa-twitter" target="_blank" rel="noopener">
 							<span class="label">Twitter</span></a></li>
-						<li><a href="https://www.facebook.com/h4bul/" class="icon brands fa-facebook-f" target="_blank">
+						<li><a href="https://www.facebook.com/h4bul/" class="icon brands fa-facebook-f" target="_blank" rel="noopener">
 							<span class="label">Facebook</span></a></li>
-						<li><a href="https://www.linkedin.com/in/h4bul/" class="icon brands fa-linkedin" target="_blank">
-							<span	class="label">Linkedin</span></a></li>						
-						<li><a href="https://github.com/habul" class="icon brands fa-github" target="_blank">
-							<span	class="label">Github</span></a></li>
-						<li><a href="mailto:shihabul.millah92@gmail.com" class="icon solid fa-envelope" target="_blank">
-							<span	class="label">Email</span></a></li>
-						<li><a href="https://wa.me/6287771911287" class="icon brands fa-whatsapp" target="_blank">
-							<span	class="label">Whatsapp</span></a></li>
+						<li><a href="https://www.linkedin.com/in/h4bul/" class="icon brands fa-linkedin" target="_blank" rel="noopener">
+							<span class="label">LinkedIn</span></a></li>
+						<li><a href="https://github.com/habul" class="icon brands fa-github" target="_blank" rel="noopener">
+							<span class="label">GitHub</span></a></li>
+						<li><a href="mailto:shihabul.millah92@gmail.com" class="icon solid fa-envelope">
+							<span class="label">Email</span></a></li>
+						<li><a href="https://wa.me/6287771911287" class="icon brands fa-whatsapp" target="_blank" rel="noopener">
+							<span class="label">WhatsApp</span></a></li>
 					</ul>
 				</nav>
 			</header>
 
 			<footer id="footer">
-				<span class="copyright">&copy; Design: <a href="#">By Habul</a>.</span>
+				<span class="copyright">&copy; <span id="year"></span> Shihabul Millah &bull; Design: <a href="https://html5up.net" target="_blank" rel="noopener">HTML5 UP</a>, enhanced by Habul.</span>
 			</footer>
 
 		</div>
@@ -56,6 +69,65 @@
 		window.onorientationchange = function () {
 			document.body.scrollTop = 0;
 		}
+
+		// Current year in footer
+		document.getElementById('year').textContent = new Date().getFullYear();
+
+		// Typing effect for roles
+		(function () {
+			var roles = ['SAP ABAP Consultant', 'Web Developer', 'IT Enthusiast'];
+			var el = document.getElementById('typed');
+			var roleIndex = 0, charIndex = roles[0].length, deleting = true;
+
+			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				el.textContent = roles.join(' • ');
+				document.querySelector('.typed-cursor').style.display = 'none';
+				return;
+			}
+
+			function tick() {
+				var word = roles[roleIndex];
+				if (deleting) {
+					charIndex--;
+					el.textContent = word.substring(0, charIndex);
+					if (charIndex === 0) {
+						deleting = false;
+						roleIndex = (roleIndex + 1) % roles.length;
+						setTimeout(tick, 400);
+						return;
+					}
+					setTimeout(tick, 40);
+				} else {
+					charIndex++;
+					el.textContent = roles[roleIndex].substring(0, charIndex);
+					if (charIndex === roles[roleIndex].length) {
+						deleting = true;
+						setTimeout(tick, 2200);
+						return;
+					}
+					setTimeout(tick, 90);
+				}
+			}
+			setTimeout(tick, 3500);
+		})();
+
+		// Gentle snowfall to match the icefields background
+		(function () {
+			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			var container = document.getElementById('snow');
+			var count = window.innerWidth < 737 ? 25 : 50;
+			for (var i = 0; i < count; i++) {
+				var flake = document.createElement('span');
+				flake.className = 'flake';
+				var size = (Math.random() * 3 + 1.5).toFixed(1);
+				flake.style.width = size + 'px';
+				flake.style.height = size + 'px';
+				flake.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+				flake.style.animationDuration = (Math.random() * 10 + 8).toFixed(1) + 's';
+				flake.style.animationDelay = (Math.random() * 12).toFixed(1) + 's';
+				container.appendChild(flake);
+			}
+		})();
 	</script>
 </body>
 
