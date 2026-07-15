@@ -3,88 +3,252 @@
 <html lang="en">
 
 <head>
-	<title>Shihabul Millah &mdash; SAP ABAP &amp; Web Developer</title>
+	<title>Shihabul Millah &mdash; SAP ABAP Consultant</title>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<meta name="description" content="Shihabul Millah — SAP ABAP Consultant, Web Developer, and IT Enthusiast. Get in touch via LinkedIn, GitHub, email, or WhatsApp." />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="Shihabul Millah — SAP ABAP Consultant and Web Developer based in Indonesia. Specializing in ABAP development, SAP enhancements, integrations, forms, and reporting." />
 	<meta name="author" content="Shihabul Millah" />
-	<meta name="theme-color" content="#348cb2" />
-	<meta property="og:title" content="Shihabul Millah" />
-	<meta property="og:description" content="SAP ABAP Consultant • Web Developer • IT Enthusiast" />
+	<meta name="theme-color" content="#070d1f" />
+	<meta property="og:title" content="Shihabul Millah — SAP ABAP Consultant" />
+	<meta property="og:description" content="SAP ABAP Consultant • Web Developer • IT Enthusiast. Building reliable SAP solutions: reports, enhancements, forms, and integrations." />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://habul.github.io/" />
-	<meta property="og:image" content="https://habul.github.io/assets/css/images/bg.jpg" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Shihabul Millah" />
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content="Shihabul Millah — SAP ABAP Consultant" />
 	<meta name="twitter:description" content="SAP ABAP Consultant • Web Developer • IT Enthusiast" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<link rel="stylesheet" href="assets/css/enhance.css" />
-	<link rel="apple-touch-icon" sizes="180x180" href="assets/css/images/apple-touch-icon.ico" type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
+	<link rel="stylesheet" href="assets/css/style.css" />
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/css/images/apple-touch-icon.ico" type="image/x-icon" />
 	<link href="assets/css/images/favicon.ico" rel="icon" type="image/x-icon" />
-	<noscript>
-		<link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>
 
-<body class="is-preload">
-	<div id="wrapper">
-		<div id="bg"></div>
-		<div id="overlay"></div>
-		<div id="snow" aria-hidden="true"></div>
-		<div id="main">
+<body>
 
-			<header id="header">
-				<h1>Shihabul Millah</h1>
-				<p><span id="typed">SAP ABAP Consultant</span><span class="typed-cursor">|</span></p>
-				<nav>
-					<ul>
-						<li><a href="https://twitter.com/habul" class="icon brands fa-twitter" target="_blank" rel="noopener">
-							<span class="label">Twitter</span></a></li>
-						<li><a href="https://www.facebook.com/h4bul/" class="icon brands fa-facebook-f" target="_blank" rel="noopener">
-							<span class="label">Facebook</span></a></li>
-						<li><a href="https://www.linkedin.com/in/h4bul/" class="icon brands fa-linkedin" target="_blank" rel="noopener">
-							<span class="label">LinkedIn</span></a></li>
-						<li><a href="https://github.com/habul" class="icon brands fa-github" target="_blank" rel="noopener">
-							<span class="label">GitHub</span></a></li>
-						<li><a href="mailto:shihabul.millah92@gmail.com" class="icon solid fa-envelope">
-							<span class="label">Email</span></a></li>
-						<li><a href="https://wa.me/6287771911287" class="icon brands fa-whatsapp" target="_blank" rel="noopener">
-							<span class="label">WhatsApp</span></a></li>
-					</ul>
-				</nav>
-			</header>
+	<div id="backdrop"></div>
+	<div class="orb orb-1"></div>
+	<div class="orb orb-2"></div>
+	<div class="orb orb-3"></div>
+	<div id="stars" aria-hidden="true"></div>
 
-			<footer id="footer">
-				<span class="copyright">&copy; <span id="year"></span> Shihabul Millah &bull; Design: <a href="https://html5up.net" target="_blank" rel="noopener">HTML5 UP</a>, enhanced by Habul.</span>
-			</footer>
-
+	<nav id="navbar">
+		<div class="container">
+			<a class="brand" href="#hero">Shihabul<span class="dot">.</span>M</a>
+			<ul class="nav-links">
+				<li><a href="#about">About</a></li>
+				<li><a href="#expertise">Expertise</a></li>
+				<li><a href="#skills">Skills</a></li>
+				<li><a href="#contact">Contact</a></li>
+			</ul>
 		</div>
-	</div>
-	<script>
-		window.onload = function () {
-			document.body.classList.remove('is-preload');
-		}
-		window.ontouchmove = function () {
-			return false;
-		}
-		window.onorientationchange = function () {
-			document.body.scrollTop = 0;
-		}
+	</nav>
 
-		// Current year in footer
+	<!-- Hero -->
+	<section id="hero">
+		<div class="container">
+			<div class="avatar">SM</div>
+			<span class="hello"><span class="wave">👋</span> Hello, welcome to my page</span>
+			<h1>I'm <span class="gradient">Shihabul Millah</span></h1>
+			<p class="typing-line">A passionate <span class="typed" id="typed">SAP ABAP Consultant</span><span class="cursor">|</span></p>
+			<p class="hero-desc">
+				I help companies get the most out of their SAP systems — building clean, reliable ABAP
+				solutions from custom reports and smart forms to enhancements and system integrations.
+			</p>
+			<div class="cta-row">
+				<a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Get In Touch</a>
+				<a href="#expertise" class="btn btn-ghost"><i class="fas fa-briefcase"></i> What I Do</a>
+			</div>
+			<ul class="socials">
+				<li><a class="s-linkedin" href="https://www.linkedin.com/in/h4bul/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
+				<li><a class="s-github" href="https://github.com/habul" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a></li>
+				<li><a class="s-twitter" href="https://twitter.com/habul" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
+				<li><a class="s-facebook" href="https://www.facebook.com/h4bul/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+				<li><a class="s-email" href="mailto:shihabul.millah92@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a></li>
+				<li><a class="s-whatsapp" href="https://wa.me/6287771911287" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a></li>
+			</ul>
+			<a href="#about" class="scroll-hint" aria-label="Scroll down"><i class="fas fa-chevron-down"></i></a>
+		</div>
+	</section>
+
+	<!-- About -->
+	<section id="about">
+		<div class="container">
+			<span class="kicker">About Me</span>
+			<h2 class="section-title">Turning Business Needs Into <span class="accent">SAP Solutions</span></h2>
+			<p class="section-sub">A quick introduction to who I am and what drives my work.</p>
+			<div class="about-grid">
+				<div class="about-text reveal">
+					<p>
+						I'm <strong>Shihabul Millah</strong>, an <strong>SAP ABAP Consultant</strong> based in
+						Indonesia. My day-to-day work revolves around designing and developing custom solutions
+						on the SAP platform — translating functional requirements into clean, maintainable, and
+						high-performance ABAP code.
+					</p>
+					<p>
+						From classical and interactive <strong>reports (ALV)</strong>, <strong>SmartForms</strong>
+						and <strong>Adobe Forms</strong>, to <strong>user exits, BAdIs, and enhancement
+						implementations</strong>, I enjoy the full spectrum of ABAP development. I also work on
+						system integrations through <strong>BAPIs, RFCs, and IDocs</strong>, connecting SAP with
+						the outside world.
+					</p>
+					<p>
+						Beyond SAP, I'm a <strong>web developer</strong> and lifelong <strong>IT enthusiast</strong> —
+						always curious about new technologies and how they can make business processes simpler,
+						faster, and more enjoyable to use.
+					</p>
+				</div>
+				<ul class="fact-list reveal">
+					<li><i class="fas fa-user-tie"></i><span><strong>Role</strong> SAP ABAP Consultant</span></li>
+					<li><i class="fas fa-map-marker-alt"></i><span><strong>Location</strong> Indonesia</span></li>
+					<li><i class="fas fa-laptop-code"></i><span><strong>Focus</strong> ABAP Development &amp; SAP Integration</span></li>
+					<li><i class="fas fa-globe"></i><span><strong>Also Into</strong> Web Development &amp; New Tech</span></li>
+					<li><i class="fas fa-comments"></i><span><strong>Open For</strong> Consulting &amp; Collaboration</span></li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<!-- Expertise -->
+	<section id="expertise">
+		<div class="container">
+			<span class="kicker">Expertise</span>
+			<h2 class="section-title">What I <span class="accent">Do</span></h2>
+			<p class="section-sub">Core services I deliver across the SAP development lifecycle.</p>
+			<div class="cards">
+				<div class="card reveal">
+					<div class="icon-badge"><i class="fas fa-code"></i></div>
+					<h3>ABAP Development</h3>
+					<p>Custom reports (classical, interactive, ALV), module pool programs, and clean, well-structured ABAP code following development best practices.</p>
+				</div>
+				<div class="card reveal">
+					<div class="icon-badge"><i class="fas fa-puzzle-piece"></i></div>
+					<h3>Enhancements &amp; Exits</h3>
+					<p>Extending SAP standard behavior safely with user exits, customer exits, BAdIs, and the Enhancement Framework — without breaking upgrades.</p>
+				</div>
+				<div class="card reveal">
+					<div class="icon-badge"><i class="fas fa-file-invoice"></i></div>
+					<h3>Forms &amp; Output</h3>
+					<p>Business documents your users will love — SmartForms, Adobe Forms, and SAPscript for invoices, purchase orders, delivery notes, and more.</p>
+				</div>
+				<div class="card reveal">
+					<div class="icon-badge"><i class="fas fa-exchange-alt"></i></div>
+					<h3>Integration &amp; Interfaces</h3>
+					<p>Connecting SAP with other systems through BAPIs, RFCs, IDocs, and file-based interfaces — reliable data flows in and out of SAP.</p>
+				</div>
+				<div class="card reveal">
+					<div class="icon-badge"><i class="fas fa-tachometer-alt"></i></div>
+					<h3>Performance &amp; Support</h3>
+					<p>Analyzing and tuning slow programs, debugging production issues, and providing ongoing AMS support to keep your SAP system healthy.</p>
+				</div>
+				<div class="card reveal">
+					<div class="icon-badge"><i class="fas fa-globe"></i></div>
+					<h3>Web Development</h3>
+					<p>Building responsive websites and web tools with HTML, CSS, and JavaScript — bringing a modern web perspective into the SAP world.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Skills -->
+	<section id="skills">
+		<div class="container">
+			<span class="kicker">Toolbox</span>
+			<h2 class="section-title">Skills &amp; <span class="accent">Technologies</span></h2>
+			<p class="section-sub">The languages, tools, and SAP technologies I work with.</p>
+			<div class="skill-groups">
+				<div class="skill-group reveal">
+					<h3><i class="fas fa-cube"></i> SAP &amp; ABAP</h3>
+					<ul class="chips">
+						<li>ABAP</li>
+						<li>ABAP OO</li>
+						<li>ALV Reports</li>
+						<li>Module Pool (Dialog)</li>
+						<li>SmartForms</li>
+						<li>Adobe Forms</li>
+						<li>SAPscript</li>
+						<li>BAPI</li>
+						<li>BAdI</li>
+						<li>User Exits</li>
+						<li>Enhancement Framework</li>
+						<li>RFC</li>
+						<li>IDoc</li>
+						<li>LSMW / BDC</li>
+						<li>SAP Query</li>
+						<li>Debugging &amp; Performance Tuning</li>
+					</ul>
+				</div>
+				<div class="skill-group reveal">
+					<h3><i class="fas fa-layer-group"></i> Web &amp; Programming</h3>
+					<ul class="chips">
+						<li>HTML5</li>
+						<li>CSS3</li>
+						<li>JavaScript</li>
+						<li>SQL</li>
+						<li>Git &amp; GitHub</li>
+						<li>REST APIs</li>
+					</ul>
+				</div>
+				<div class="skill-group reveal">
+					<h3><i class="fas fa-toolbox"></i> Tools &amp; Ways of Working</h3>
+					<ul class="chips">
+						<li>SAP GUI</li>
+						<li>Eclipse ADT</li>
+						<li>SAP Solution Manager</li>
+						<li>Technical Specifications</li>
+						<li>Unit Testing</li>
+						<li>Functional–Technical Collaboration</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Contact -->
+	<section id="contact">
+		<div class="container">
+			<span class="kicker">Contact</span>
+			<h2 class="section-title">Let's Work <span class="accent">Together</span></h2>
+			<p class="section-sub">Have an SAP project, a question, or just want to say hi? My inbox is always open.</p>
+			<div class="contact-cards">
+				<a class="contact-card reveal" href="mailto:shihabul.millah92@gmail.com">
+					<i class="fas fa-envelope"></i>
+					<h3>Email</h3>
+					<p>shihabul.millah92@gmail.com</p>
+				</a>
+				<a class="contact-card reveal" href="https://wa.me/6287771911287" target="_blank" rel="noopener">
+					<i class="fab fa-whatsapp"></i>
+					<h3>WhatsApp</h3>
+					<p>+62 877-7191-1287</p>
+				</a>
+				<a class="contact-card reveal" href="https://www.linkedin.com/in/h4bul/" target="_blank" rel="noopener">
+					<i class="fab fa-linkedin-in"></i>
+					<h3>LinkedIn</h3>
+					<p>linkedin.com/in/h4bul</p>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<footer>
+		<div class="container">
+			<p>&copy; <span id="year"></span> Shihabul Millah &bull; Crafted with <span class="heart">&hearts;</span> by Habul</p>
+		</div>
+	</footer>
+
+	<script>
+		// Current year
 		document.getElementById('year').textContent = new Date().getFullYear();
+
+		var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 		// Typing effect for roles
 		(function () {
-			var roles = ['SAP ABAP Consultant', 'Web Developer', 'IT Enthusiast'];
+			var roles = ['SAP ABAP Consultant', 'Web Developer', 'IT Enthusiast', 'Problem Solver'];
 			var el = document.getElementById('typed');
+			if (reducedMotion) { el.textContent = roles[0]; document.querySelector('.cursor').style.display = 'none'; return; }
 			var roleIndex = 0, charIndex = roles[0].length, deleting = true;
-
-			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-				el.textContent = roles.join(' • ');
-				document.querySelector('.typed-cursor').style.display = 'none';
-				return;
-			}
-
 			function tick() {
 				var word = roles[roleIndex];
 				if (deleting) {
@@ -93,7 +257,7 @@
 					if (charIndex === 0) {
 						deleting = false;
 						roleIndex = (roleIndex + 1) % roles.length;
-						setTimeout(tick, 400);
+						setTimeout(tick, 350);
 						return;
 					}
 					setTimeout(tick, 40);
@@ -105,28 +269,47 @@
 						setTimeout(tick, 2200);
 						return;
 					}
-					setTimeout(tick, 90);
+					setTimeout(tick, 85);
 				}
 			}
-			setTimeout(tick, 3500);
+			setTimeout(tick, 2000);
 		})();
 
-		// Gentle snowfall to match the icefields background
+		// Twinkling stars in the backdrop
 		(function () {
-			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-			var container = document.getElementById('snow');
-			var count = window.innerWidth < 737 ? 25 : 50;
+			if (reducedMotion) return;
+			var container = document.getElementById('stars');
+			var count = window.innerWidth < 737 ? 35 : 70;
 			for (var i = 0; i < count; i++) {
-				var flake = document.createElement('span');
-				flake.className = 'flake';
-				var size = (Math.random() * 3 + 1.5).toFixed(1);
-				flake.style.width = size + 'px';
-				flake.style.height = size + 'px';
-				flake.style.left = (Math.random() * 100).toFixed(2) + 'vw';
-				flake.style.animationDuration = (Math.random() * 10 + 8).toFixed(1) + 's';
-				flake.style.animationDelay = (Math.random() * 12).toFixed(1) + 's';
-				container.appendChild(flake);
+				var star = document.createElement('span');
+				star.className = 'star';
+				var size = (Math.random() * 2 + 1).toFixed(1);
+				star.style.width = size + 'px';
+				star.style.height = size + 'px';
+				star.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+				star.style.top = (Math.random() * 100).toFixed(2) + 'vh';
+				star.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+				star.style.animationDuration = (Math.random() * 3 + 2.5).toFixed(2) + 's';
+				container.appendChild(star);
 			}
+		})();
+
+		// Reveal sections on scroll
+		(function () {
+			var items = document.querySelectorAll('.reveal');
+			if (!('IntersectionObserver' in window) || reducedMotion) {
+				items.forEach(function (el) { el.classList.add('visible'); });
+				return;
+			}
+			var observer = new IntersectionObserver(function (entries) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+						observer.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.12 });
+			items.forEach(function (el) { observer.observe(el); });
 		})();
 	</script>
 </body>
