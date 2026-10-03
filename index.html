@@ -17,25 +17,28 @@
 	<link rel="stylesheet" href="assets/css/style.css" />
 	<link rel="icon" href="assets/css/images/favicon.ico" type="image/x-icon" />
 	<link rel="apple-touch-icon" href="assets/css/images/apple-touch-icon.ico" />
+	<script>try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
+<div id="progress"></div>
 <div class="page">
 
 	<header class="top">
-		<a class="name" href="./">habul</a>
+		<a class="name" href="#">habul<span class="cur">_</span></a>
 		<nav>
 			<a href="#work">work</a>
 			<a href="#projects">projects</a>
 			<a href="#skills">skills</a>
 			<a href="#contact">contact</a>
+			<button id="theme" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
 		</nav>
 	</header>
 
 	<div class="intro">
-		<img src="assets/images/profile.jpg" alt="Shihabul Millah" />
+		<div class="photo"><img src="assets/images/profile.jpg" alt="Shihabul Millah" /></div>
 		<div>
 			<h1>Shihabul Millah</h1>
-			<p class="role">SAP ABAP consultant, Tangerang</p>
+			<p class="role">Tangerang-based <span class="swap" id="swap">SAP ABAP consultant</span></p>
 			<p>
 				I work at PT Wilmar Consultancy Services on the technical side of SAP projects:
 				reports, forms, interfaces, and the HANA and CDS views underneath them. Most of my
@@ -46,45 +49,112 @@
 				databases, which is where I started writing code. I still build web apps with
 				Laravel and CodeIgniter, and I'd like to do more work in fintech someday.
 			</p>
-<pre class="abap"><span class="k">REPORT</span> zhello.
 
-<span class="k">DATA</span>(lv_city) = <span class="s">'Tangerang'</span>.
-<span class="k">WRITE</span>: / <span class="s">'Salam dari'</span>, lv_city.</pre>
+			<div class="numbers">
+				<div><b data-count="5" data-plus>0</b>years in SAP</div>
+				<div><b data-count="15" data-plus>0</b>years in IT</div>
+				<div><b data-count="5">0</b>implementations</div>
+			</div>
+
+			<div class="editor">
+				<div class="bar">
+					<span><i></i><i></i><i></i> SE38 · ZHELLO_WORLD</span>
+					<button id="run" title="Execute (F8)">▶ Execute F8</button>
+				</div>
+<pre><span class="k">REPORT</span> zhello_world.
+
+<span class="c">* try it: press F8</span>
+<span class="k">DATA</span>(lv_city)  = <span class="s">'Tangerang'</span>.
+<span class="k">DATA</span>(lv_motto) = zcl_habul=&gt;get_motto( ).
+
+<span class="k">WRITE</span>: / <span class="s">'Salam dari'</span>, lv_city.
+<span class="k">WRITE</span>: / lv_motto.</pre>
+				<div class="out" id="out" aria-live="polite"></div>
+			</div>
 		</div>
 	</div>
 
 	<section id="work">
 		<h2>Work</h2>
 		<div>
-			<div class="entry">
-				<span class="when">2025 – now</span>
-				<h3>SAP ABAP Consultant</h3>
-				<p class="where"><em>PT Wilmar Consultancy Services</em>, Jakarta</p>
-				<p>HANA views and stored procedures to make slow reports fast, Smart Forms and Adobe Forms for client documents, and BAPI/RFC interfaces to outside systems. I also turn business requirements into technical specs and keep an eye on programs that use too much runtime or memory.</p>
+			<p class="hint rv">click a role to see more</p>
+
+			<div class="job rv">
+				<button aria-expanded="false">
+					<span class="when">Jan 2025 – now</span>
+					<h3>SAP ABAP Consultant <span class="plus">+</span></h3>
+					<p class="where"><em>PT Wilmar Consultancy Services</em>, Jakarta</p>
+					<p class="sum">HANA views, forms, and BAPI/RFC interfaces for client implementations.</p>
+				</button>
+				<div class="more"><ul>
+					<li>Built SAP HANA views and stored procedures to optimise queries, cutting report generation time significantly.</li>
+					<li>Designed interfaces between SAP and external systems using BAPIs and RFCs.</li>
+					<li>Customised Smart Forms and Adobe Forms for client-specific document output.</li>
+					<li>Turned business requirements into detailed technical specifications for ABAP development.</li>
+					<li>Monitored ABAP programs for runtime and memory usage and adjusted them for performance.</li>
+					<li>Wrote technical and executive reports and ran meetings on improvements and customisations.</li>
+				</ul></div>
 			</div>
-			<div class="entry">
-				<span class="when">2023 – 2024</span>
-				<h3>IT ERP Engineer SAP</h3>
-				<p class="where"><em>PT Sicepat Ekspress Indonesia</em>, Jakarta</p>
-				<p>New ABAP programs and changes to existing ones, custom reports and screens, and integrations between SAP and the company's other systems. Lots of debugging, plus user support and training.</p>
+
+			<div class="job rv">
+				<button aria-expanded="false">
+					<span class="when">Nov 2023 – Dec 2024</span>
+					<h3>IT ERP Engineer SAP <span class="plus">+</span></h3>
+					<p class="where"><em>PT Sicepat Ekspress Indonesia</em>, Jakarta</p>
+					<p class="sum">In-house ABAP development, integrations, and user support.</p>
+				</button>
+				<div class="more"><ul>
+					<li>Created new ABAP programs, stand-alone and integrated with existing SAP systems.</li>
+					<li>Modified existing programs to add functionality or change processes.</li>
+					<li>Developed custom reports and custom user interfaces to make processes easier for users.</li>
+					<li>Integrated SAP with other systems used by the company.</li>
+					<li>Scripting and debugging to fix problems in the SAP system.</li>
+					<li>Supported and trained SAP users, and managed work in ClickUp.</li>
+				</ul></div>
 			</div>
-			<div class="entry">
-				<span class="when">2023</span>
-				<h3>SAP ABAP</h3>
-				<p class="where"><em>PT Lotte Data Communication</em>, Jakarta</p>
-				<p>ABAP development, custom reports, integrations, and support for end users.</p>
+
+			<div class="job rv">
+				<button aria-expanded="false">
+					<span class="when">Apr 2023 – Oct 2023</span>
+					<h3>SAP ABAP <span class="plus">+</span></h3>
+					<p class="where"><em>PT Lotte Data Communication</em>, Jakarta</p>
+					<p class="sum">ABAP development, reports, and integrations.</p>
+				</button>
+				<div class="more"><ul>
+					<li>Created new ABAP programs, stand-alone and integrated with existing SAP systems.</li>
+					<li>Modified existing programs and developed custom reports.</li>
+					<li>Built custom user interfaces and integrated SAP with other systems.</li>
+					<li>Debugging, plus support and training for end users.</li>
+				</ul></div>
 			</div>
-			<div class="entry">
-				<span class="when">2021 – 2023</span>
-				<h3>IT SAP ABAP</h3>
-				<p class="where"><em>PT Pan Brothers Tbk</em>, Tangerang</p>
-				<p>My first SAP role. ABAP programs, reports and screens, and the rollout of new company codes across several plants.</p>
+
+			<div class="job rv">
+				<button aria-expanded="false">
+					<span class="when">Jun 2021 – May 2023</span>
+					<h3>IT SAP ABAP <span class="plus">+</span></h3>
+					<p class="where"><em>PT Pan Brothers Tbk</em>, Tangerang</p>
+					<p class="sum">My first SAP role, including a multi-plant company code rollout.</p>
+				</button>
+				<div class="more"><ul>
+					<li>Developed new ABAP programs, standalone and integrated with existing SAP systems.</li>
+					<li>Modified current programs, adding functionality or changing existing processes.</li>
+					<li>Built custom reports and user interfaces.</li>
+					<li>Rolled out new company codes across several plants.</li>
+				</ul></div>
 			</div>
-			<div class="entry">
-				<span class="when">2010 – 2021</span>
-				<h3>Senior Clerk (EDP)</h3>
-				<p class="where"><em>PT Indomarco Prismatama</em>, Tangerang</p>
-				<p>Kept store POS systems running, maintained databases, passed bugs on to the programming team, and built a small web app that other departments used for reporting.</p>
+
+			<div class="job rv">
+				<button aria-expanded="false">
+					<span class="when">Dec 2010 – May 2021</span>
+					<h3>Senior Clerk (EDP) <span class="plus">+</span></h3>
+					<p class="where"><em>PT Indomarco Prismatama</em>, Tangerang</p>
+					<p class="sum">POS systems, databases, and my first web app.</p>
+				</button>
+				<div class="more"><ul>
+					<li>Kept the in-store POS system running smoothly.</li>
+					<li>Maintained databases and reported bugs to the programming team.</li>
+					<li>Built a web application for other departments' reporting needs.</li>
+				</ul></div>
 			</div>
 		</div>
 	</section>
@@ -92,37 +162,54 @@
 	<section id="projects">
 		<h2>Projects</h2>
 		<div>
-			<div class="entry">
+			<div class="filters" id="pf">
+				<button class="on" data-f="all">all</button>
+				<button data-f="s4">S/4HANA</button>
+				<button data-f="grow">SAP GROW</button>
+				<button data-f="ecc">ECC 6.0</button>
+				<button data-f="golive">go-live &amp; support</button>
+			</div>
+			<div class="filters mods" id="mf">
+				<button data-m="MM">MM</button><button data-m="SD">SD</button><button data-m="FI">FI</button><button data-m="CO">CO</button><button data-m="PM">PM</button><button data-m="PS">PS</button><button data-m="FM">FM</button><button data-m="HCM">HCM</button><button data-m="EM">EM</button>
+			</div>
+			<p class="count" id="count">5 projects</p>
+
+			<div class="proj rv" data-p="grow" data-m="SD FI">
 				<span class="when">May – Sep 2026 · SAP GROW Public Cloud</span>
 				<h3>PT Paradise Perkasa</h3>
 				<p>A sales order report that follows the document flow from sales order through billing to journal entry, and the sales quotation form.</p>
+				<div class="mods"><span>SD</span><span>FI</span></div>
 			</div>
-			<div class="entry">
+			<div class="proj rv" data-p="s4" data-m="MM SD FM PS">
 				<span class="when">Jan – Sep 2026 · SAP RISE S/4HANA</span>
 				<h3>PT Anglo Eastern Plantation</h3>
 				<p>New implementation. Custom programs for the weighbridge and WB Park, master data interfaces for MM and SD, CDS views for SAP Analytics Cloud, and enhancements in FM and PS.</p>
+				<div class="mods"><span>MM</span><span>SD</span><span>FM</span><span>PS</span></div>
 			</div>
-			<div class="entry">
+			<div class="proj rv" data-p="ecc" data-m="MM SD FI CO">
 				<span class="when">Mar – Sep 2025 · ECC 6.0 EhP8</span>
 				<h3>PT Sarana Abadi Makmur Bersama</h3>
 				<p>New implementation. Custom programs for MM, SD, FI and CO, and fixing the interfaces before go-live.</p>
+				<div class="mods"><span>MM</span><span>SD</span><span>FI</span><span>CO</span></div>
 			</div>
-			<div class="entry">
+			<div class="proj rv" data-p="golive" data-m="HCM">
 				<span class="when">May – Jul 2025 · Pre go-live</span>
 				<h3>Raffles Shipping International</h3>
 				<p>Change requests for HCM and issue fixes during final preparation.</p>
+				<div class="mods"><span>HCM</span></div>
 			</div>
-			<div class="entry">
+			<div class="proj rv" data-p="golive" data-m="MM EM PM FI CO">
 				<span class="when">Jan – Mar 2025 · Post go-live support</span>
 				<h3>PT Musi Hutan Persada</h3>
 				<p>Change requests across MM, EM, PM, FI and CO, fixing issues after go-live, and tuning programs that ran slow.</p>
+				<div class="mods"><span>MM</span><span>EM</span><span>PM</span><span>FI</span><span>CO</span></div>
 			</div>
 		</div>
 	</section>
 
 	<section id="skills">
 		<h2>Skills</h2>
-		<dl class="skills">
+		<dl class="skills rv">
 			<dt>ABAP</dt>
 			<dd>Reports, Smart Forms, Adobe Forms, BAPI, RFC, enhancements, debugging, performance tuning</dd>
 			<dt>HANA &amp; analytics</dt>
@@ -130,7 +217,10 @@
 			<dt>Systems</dt>
 			<dd>S/4HANA (RISE), SAP GROW Public Cloud, ECC 6.0 EhP8</dd>
 			<dt>Modules</dt>
-			<dd>MM, SD, FI, CO, PM, PS, FM, HCM, EM</dd>
+			<dd>
+				<button class="mod" data-m="MM">MM</button><button class="mod" data-m="SD">SD</button><button class="mod" data-m="FI">FI</button><button class="mod" data-m="CO">CO</button><button class="mod" data-m="PM">PM</button><button class="mod" data-m="PS">PS</button><button class="mod" data-m="FM">FM</button><button class="mod" data-m="HCM">HCM</button><button class="mod" data-m="EM">EM</button>
+				<br /><small class="hint">click a module to see the projects that used it</small>
+			</dd>
 			<dt>Web</dt>
 			<dd>Laravel, CodeIgniter, SQL, Git</dd>
 			<dt>Languages</dt>
@@ -142,21 +232,22 @@
 
 	<section id="contact">
 		<h2>Contact</h2>
-		<ul class="plain">
-			<li><span>Email</span> <a href="mailto:shihabul.millah92@gmail.com">shihabul.millah92@gmail.com</a></li>
-			<li><span>WhatsApp</span> <a href="https://wa.me/6287771911287">+62 877 7191 1287</a></li>
-			<li><span>LinkedIn</span> <a href="https://www.linkedin.com/in/h4bul/">in/h4bul</a></li>
-			<li><span>GitHub</span> <a href="https://github.com/habul">habul</a></li>
-			<li><span>Twitter</span> <a href="https://twitter.com/habul">@habul</a></li>
-			<li><span>Facebook</span> <a href="https://www.facebook.com/h4bul/">h4bul</a></li>
+		<ul class="plain rv">
+			<li><span class="lbl">Email</span> <a href="mailto:shihabul.millah92@gmail.com">shihabul.millah92@gmail.com</a> <button class="copy" data-copy="shihabul.millah92@gmail.com">copy</button></li>
+			<li><span class="lbl">WhatsApp</span> <a href="https://wa.me/6287771911287">+62 877 7191 1287</a> <button class="copy" data-copy="+6287771911287">copy</button></li>
+			<li><span class="lbl">LinkedIn</span> <a href="https://www.linkedin.com/in/h4bul/">in/h4bul</a></li>
+			<li><span class="lbl">GitHub</span> <a href="https://github.com/habul">habul</a></li>
+			<li><span class="lbl">Twitter</span> <a href="https://twitter.com/habul">@habul</a></li>
+			<li><span class="lbl">Facebook</span> <a href="https://www.facebook.com/h4bul/">h4bul</a></li>
 		</ul>
 	</section>
 
 	<footer>
-		<span>© 2026 Shihabul Millah</span>
+		<span>© <span id="yr">2026</span> Shihabul Millah</span>
 		<span>Updated October 2026</span>
 	</footer>
 
 </div>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
