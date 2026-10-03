@@ -30,7 +30,6 @@
 
 	<div id="backdrop"></div>
 	<div class="nebula" aria-hidden="true"></div>
-	<div class="milkyway" aria-hidden="true"></div>
 	<canvas id="galaxy" aria-hidden="true"></canvas>
 
 	<nav id="navbar">
@@ -400,12 +399,25 @@
 			setTimeout(tick, 2000);
 		})();
 
-		// Galaxy: star field with a Milky Way band, twinkle, shooting stars, mouse parallax
+		// Galaxy: a barred spiral seen from far away, slowly rotating, over a distant star field
 		(function () {
 			var c = document.getElementById('galaxy'), ctx = c.getContext('2d');
-			var stars = [], shooters = [], w, h, raf = null, mx = 0, my = 0, px = 0, py = 0;
-			var colors = ['255,255,255', '210,225,255', '175,200,255', '255,240,220', '255,215,235'];
+			var bg = [], shooters = [], w, h, R, cx, cy, raf = null;
+			var off = document.createElement('canvas'), octx = off.getContext('2d'), frame = 0, lastSp = -1;
+			var mx = 0, my = 0, px = 0, py = 0;
+			var TILT = 0.58;                   // disk seen at an angle (minor/major axis ratio)
+			var PHI = -0.35;                   // on-screen orientation of the disk
+			var SPIN = 2 * Math.PI / 260000;   // one turn every ~4 minutes
 			function gauss() { var u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+			function mix(a, b, t) { return [0, 1, 2].map(function (i) { return Math.round(a[i] + (b[i] - a[i]) * t); }); }
+			var CORE = [255, 222, 175], ARM = [165, 195, 255], PINK = [255, 140, 200];
+
+			var groups = {};
+			function add(r, th, size, col, alpha) {
+				var q = function (v) { return Math.round(v / 12) * 12; };
+				var key = 'rgba(' + q(col[0]) + ',' + q(col[1]) + ',' + q(col[2]) + ',' + (Math.round(alpha * 20) / 20) + ')';
+				(groups[key] = groups[key] || []).push({ r: r, th: th, s: size });
+			}
 
 			function build() {
 				var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -413,62 +425,113 @@
 				c.width = w * dpr; c.height = h * dpr;
 				c.style.width = w + 'px'; c.style.height = h + 'px';
 				ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-				var n = Math.round(w * h / (w < 737 ? 2400 : 1400));
-				var ang = -28 * Math.PI / 180, cos = Math.cos(ang), sin = Math.sin(ang), diag = Math.hypot(w, h);
-				stars = [];
-				for (var i = 0; i < n; i++) {
-					var x, y;
-					if (i < n * 0.55) { // concentrated along the Milky Way band
-						var along = (Math.random() - 0.5) * diag * 1.1, across = gauss() * h * 0.085;
-						x = w / 2 + along * cos - across * sin;
-						y = h / 2 + along * sin + across * cos;
-					} else { x = Math.random() * w; y = Math.random() * h; }
-					var big = Math.random() < 0.035;
-					stars.push({
-						x: x, y: y,
-						r: big ? Math.random() * 1.1 + 1.1 : Math.random() * 0.85 + 0.25,
-						a: Math.random() * 0.55 + 0.35,
-						tw: Math.random() * 0.003 + 0.0008,
-						ph: Math.random() * 6.283,
-						col: colors[Math.random() * colors.length | 0],
-						d: Math.random() * 0.8 + 0.2,
-						big: big
-					});
+				off.width = w * dpr; off.height = h * dpr;
+				octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+				lastSp = -1;
+
+				var mobile = w < 737;
+				R = mobile ? w * 0.8 : Math.min(w * 0.4, h * 0.66);
+				cx = mobile ? w * 0.5 : w * 0.82;
+				cy = mobile ? h * 0.24 : h * 0.52;
+
+				// distant background stars
+				bg = [];
+				var nb = Math.round(w * h / (mobile ? 3200 : 2200));
+				for (var i = 0; i < nb; i++) bg.push({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 0.8 + 0.2, a: Math.random() * 0.5 + 0.25, tw: Math.random() * 0.003 + 0.0008, ph: Math.random() * 6.283 });
+
+				// the galaxy
+				groups = {};
+				var N = mobile ? 6000 : 13000, r0 = 0.08 * R, B = 3.6; // B = 1 / tan(pitch angle)
+				for (var k = 0; k < N; k++) {
+					var t = Math.random(), r, th;
+					if (t < 0.16) {                // bulge
+						r = Math.abs(gauss()) * 0.11 * R; th = Math.random() * 6.283;
+						add(r, th, Math.random() * 0.9 + 0.6, CORE, Math.random() * 0.35 + 0.35);
+					} else if (t < 0.23) {         // central bar
+						var bx = (Math.random() - 0.5) * 0.48 * R, by = gauss() * 0.035 * R;
+						r = Math.hypot(bx, by); th = Math.atan2(by, bx);
+						add(r, th, Math.random() * 0.8 + 0.6, mix(CORE, [255, 240, 215], Math.random()), Math.random() * 0.3 + 0.3);
+					} else if (t < 0.93) {         // spiral arms: two major, two faint minor
+						var major = Math.random() < 0.82;
+						var arm = major ? (Math.random() < 0.5 ? 0 : Math.PI) : (Math.random() < 0.5 ? Math.PI / 2 : 3 * Math.PI / 2);
+						r = r0 + Math.pow(Math.random(), 0.85) * (R - r0);
+						th = arm + B * Math.log(r / r0) + gauss() * (major ? 0.11 : 0.18) * (1 + r / R);
+						r += gauss() * 0.018 * R;
+						var tt = Math.min(1, r / R * 1.4);
+						if (Math.random() < 0.18) add(r, th + gauss() * 0.05, Math.random() * 3 + 3, mix(CORE, ARM, tt), 0.05);
+						if (Math.random() < 0.018) add(r, th, Math.random() * 1.2 + 1.2, PINK, Math.random() * 0.3 + 0.45);
+						else add(r, th, Math.random() * 1.0 + 0.45, mix(CORE, ARM, tt), (major ? 0.75 : 0.4) * (1 - r / R * 0.4) * (Math.random() * 0.6 + 0.4));
+					} else {                       // faint halo
+						r = Math.random() * 1.15 * R; th = Math.random() * 6.283;
+						add(r, th, Math.random() * 0.6 + 0.3, ARM, Math.random() * 0.15 + 0.05);
+					}
 				}
 			}
 
+			function glow(g2, x, y, rad, stops) {
+				var g = g2.createRadialGradient(x, y, 0, x, y, rad);
+				stops.forEach(function (st) { g.addColorStop(st[0], st[1]); });
+				g2.fillStyle = g; g2.beginPath(); g2.arc(x, y, rad, 0, 6.283); g2.fill();
+			}
+
+			// draw the galaxy into the offscreen canvas (centred, no parallax offset)
+			function renderGalaxy(now, sp) {
+				var g2 = octx, scale = 1 - sp * 0.3;
+				var rot = (reducedMotion ? 0 : now * SPIN) + scrollY * 0.0004;
+				var cp = Math.cos(PHI), sn = Math.sin(PHI);
+				g2.globalCompositeOperation = 'source-over';
+				g2.clearRect(0, 0, w, h);
+				g2.globalCompositeOperation = 'lighter';
+				g2.save();
+				g2.translate(cx, cy); g2.rotate(PHI); g2.scale(1, TILT);
+				glow(g2, 0, 0, R * 1.1 * scale, [[0, 'rgba(120,150,255,0.10)'], [0.5, 'rgba(90,110,220,0.05)'], [1, 'rgba(60,70,180,0)']]);
+				glow(g2, 0, 0, R * 0.38 * scale, [[0, 'rgba(255,236,200,0.55)'], [0.25, 'rgba(255,210,160,0.25)'], [1, 'rgba(255,190,140,0)']]);
+				g2.restore();
+				for (var key in groups) {
+					var list = groups[key];
+					g2.fillStyle = key;
+					for (var j = 0; j < list.length; j++) {
+						var q = list[j], an = q.th + rot;
+						var x = q.r * Math.cos(an) * scale, y = q.r * Math.sin(an) * TILT * scale;
+						g2.fillRect(cx + x * cp - y * sn - q.s / 2, cy + x * sn + y * cp - q.s / 2, q.s, q.s);
+					}
+				}
+				glow(g2, cx, cy, R * 0.06 * scale, [[0, 'rgba(255,250,235,0.9)'], [1, 'rgba(255,230,190,0)']]);
+			}
+
 			function draw(now) {
+				ctx.globalCompositeOperation = 'source-over';
 				ctx.clearRect(0, 0, w, h);
 				px += (mx - px) * 0.05; py += (my - py) * 0.05;
-				for (var i = 0; i < stars.length; i++) {
-					var s = stars[i];
-					var a = reducedMotion ? s.a : s.a * (0.6 + 0.4 * Math.sin(now * s.tw + s.ph));
-					var x = s.x - px * s.d * 14, y = s.y - py * s.d * 14;
-					if (s.big) {
-						var g = ctx.createRadialGradient(x, y, 0, x, y, s.r * 7);
-						g.addColorStop(0, 'rgba(' + s.col + ',' + (a * 0.4) + ')');
-						g.addColorStop(1, 'rgba(' + s.col + ',0)');
-						ctx.fillStyle = g;
-						ctx.beginPath(); ctx.arc(x, y, s.r * 7, 0, 6.283); ctx.fill();
-					}
-					ctx.fillStyle = 'rgba(' + s.col + ',' + a + ')';
-					ctx.beginPath(); ctx.arc(x, y, s.r, 0, 6.283); ctx.fill();
+
+				for (var i = 0; i < bg.length; i++) {
+					var b = bg[i], a = reducedMotion ? b.a : b.a * (0.6 + 0.4 * Math.sin(now * b.tw + b.ph));
+					ctx.fillStyle = 'rgba(220,230,255,' + a + ')';
+					ctx.fillRect(b.x - px * 6, b.y - py * 6, b.r * 1.6, b.r * 1.6);
 				}
+
+				// galaxy drifts a little with the mouse and recedes as you scroll;
+				// it turns slowly, so it is re-rendered every few frames and blitted in between
+				var docH = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+				var sp = Math.min(1, scrollY / docH);
+				if (frame++ % 3 === 0 || Math.abs(sp - lastSp) > 0.002) { renderGalaxy(now, sp); lastSp = sp; }
+				ctx.globalCompositeOperation = 'lighter';
+				ctx.drawImage(off, -px * 28, -py * 28 - sp * h * 0.1, w, h);
+				ctx.globalCompositeOperation = 'source-over';
+
 				if (reducedMotion) return;
 
-				if (shooters.length < 2 && Math.random() < 0.005) {
-					shooters.push({ x: Math.random() * w * 0.7 + w * 0.3, y: Math.random() * h * 0.45, vx: -(Math.random() * 6 + 8), vy: Math.random() * 3 + 3.5, life: 0 });
+				if (shooters.length < 1 && Math.random() < 0.003) {
+					shooters.push({ x: Math.random() * w * 0.6 + w * 0.4, y: Math.random() * h * 0.4, vx: -(Math.random() * 6 + 8), vy: Math.random() * 3 + 3.5, life: 0 });
 				}
-				for (var j = shooters.length - 1; j >= 0; j--) {
-					var m = shooters[j]; m.life++; m.x += m.vx; m.y += m.vy;
-					var al = Math.max(0, 1 - m.life / 55);
-					var tx = m.x - m.vx * 9, ty = m.y - m.vy * 9;
+				for (var k = shooters.length - 1; k >= 0; k--) {
+					var m = shooters[k]; m.life++; m.x += m.vx; m.y += m.vy;
+					var al = Math.max(0, 1 - m.life / 55), tx = m.x - m.vx * 9, ty = m.y - m.vy * 9;
 					var lg = ctx.createLinearGradient(m.x, m.y, tx, ty);
-					lg.addColorStop(0, 'rgba(255,255,255,' + al + ')');
-					lg.addColorStop(1, 'rgba(160,190,255,0)');
-					ctx.strokeStyle = lg; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+					lg.addColorStop(0, 'rgba(255,255,255,' + al + ')'); lg.addColorStop(1, 'rgba(160,190,255,0)');
+					ctx.strokeStyle = lg; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
 					ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(tx, ty); ctx.stroke();
-					if (m.life > 55) shooters.splice(j, 1);
+					if (m.life > 55) shooters.splice(k, 1);
 				}
 				raf = requestAnimationFrame(draw);
 			}
@@ -479,6 +542,7 @@
 			var rt;
 			addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { build(); start(); }, 150); });
 			addEventListener('mousemove', function (e) { mx = e.clientX / w - 0.5; my = e.clientY / h - 0.5; }, { passive: true });
+			if (reducedMotion) addEventListener('scroll', start, { passive: true });
 			document.addEventListener('visibilitychange', function () {
 				if (document.hidden) { cancelAnimationFrame(raf); raf = null; } else start();
 			});
