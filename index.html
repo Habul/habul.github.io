@@ -29,10 +29,9 @@
 <body>
 
 	<div id="backdrop"></div>
-	<div class="orb orb-1"></div>
-	<div class="orb orb-2"></div>
-	<div class="orb orb-3"></div>
-	<div id="stars" aria-hidden="true"></div>
+	<div class="nebula" aria-hidden="true"></div>
+	<div class="milkyway" aria-hidden="true"></div>
+	<canvas id="galaxy" aria-hidden="true"></canvas>
 
 	<nav id="navbar">
 		<div class="container">
@@ -401,23 +400,88 @@
 			setTimeout(tick, 2000);
 		})();
 
-		// Twinkling stars in the backdrop
+		// Galaxy: star field with a Milky Way band, twinkle, shooting stars, mouse parallax
 		(function () {
-			if (reducedMotion) return;
-			var container = document.getElementById('stars');
-			var count = window.innerWidth < 737 ? 35 : 70;
-			for (var i = 0; i < count; i++) {
-				var star = document.createElement('span');
-				star.className = 'star';
-				var size = (Math.random() * 2 + 1).toFixed(1);
-				star.style.width = size + 'px';
-				star.style.height = size + 'px';
-				star.style.left = (Math.random() * 100).toFixed(2) + 'vw';
-				star.style.top = (Math.random() * 100).toFixed(2) + 'vh';
-				star.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
-				star.style.animationDuration = (Math.random() * 3 + 2.5).toFixed(2) + 's';
-				container.appendChild(star);
+			var c = document.getElementById('galaxy'), ctx = c.getContext('2d');
+			var stars = [], shooters = [], w, h, raf = null, mx = 0, my = 0, px = 0, py = 0;
+			var colors = ['255,255,255', '210,225,255', '175,200,255', '255,240,220', '255,215,235'];
+			function gauss() { var u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+
+			function build() {
+				var dpr = Math.min(window.devicePixelRatio || 1, 2);
+				w = innerWidth; h = innerHeight;
+				c.width = w * dpr; c.height = h * dpr;
+				c.style.width = w + 'px'; c.style.height = h + 'px';
+				ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+				var n = Math.round(w * h / (w < 737 ? 2400 : 1400));
+				var ang = -28 * Math.PI / 180, cos = Math.cos(ang), sin = Math.sin(ang), diag = Math.hypot(w, h);
+				stars = [];
+				for (var i = 0; i < n; i++) {
+					var x, y;
+					if (i < n * 0.55) { // concentrated along the Milky Way band
+						var along = (Math.random() - 0.5) * diag * 1.1, across = gauss() * h * 0.085;
+						x = w / 2 + along * cos - across * sin;
+						y = h / 2 + along * sin + across * cos;
+					} else { x = Math.random() * w; y = Math.random() * h; }
+					var big = Math.random() < 0.035;
+					stars.push({
+						x: x, y: y,
+						r: big ? Math.random() * 1.1 + 1.1 : Math.random() * 0.85 + 0.25,
+						a: Math.random() * 0.55 + 0.35,
+						tw: Math.random() * 0.003 + 0.0008,
+						ph: Math.random() * 6.283,
+						col: colors[Math.random() * colors.length | 0],
+						d: Math.random() * 0.8 + 0.2,
+						big: big
+					});
+				}
 			}
+
+			function draw(now) {
+				ctx.clearRect(0, 0, w, h);
+				px += (mx - px) * 0.05; py += (my - py) * 0.05;
+				for (var i = 0; i < stars.length; i++) {
+					var s = stars[i];
+					var a = reducedMotion ? s.a : s.a * (0.6 + 0.4 * Math.sin(now * s.tw + s.ph));
+					var x = s.x - px * s.d * 14, y = s.y - py * s.d * 14;
+					if (s.big) {
+						var g = ctx.createRadialGradient(x, y, 0, x, y, s.r * 7);
+						g.addColorStop(0, 'rgba(' + s.col + ',' + (a * 0.4) + ')');
+						g.addColorStop(1, 'rgba(' + s.col + ',0)');
+						ctx.fillStyle = g;
+						ctx.beginPath(); ctx.arc(x, y, s.r * 7, 0, 6.283); ctx.fill();
+					}
+					ctx.fillStyle = 'rgba(' + s.col + ',' + a + ')';
+					ctx.beginPath(); ctx.arc(x, y, s.r, 0, 6.283); ctx.fill();
+				}
+				if (reducedMotion) return;
+
+				if (shooters.length < 2 && Math.random() < 0.005) {
+					shooters.push({ x: Math.random() * w * 0.7 + w * 0.3, y: Math.random() * h * 0.45, vx: -(Math.random() * 6 + 8), vy: Math.random() * 3 + 3.5, life: 0 });
+				}
+				for (var j = shooters.length - 1; j >= 0; j--) {
+					var m = shooters[j]; m.life++; m.x += m.vx; m.y += m.vy;
+					var al = Math.max(0, 1 - m.life / 55);
+					var tx = m.x - m.vx * 9, ty = m.y - m.vy * 9;
+					var lg = ctx.createLinearGradient(m.x, m.y, tx, ty);
+					lg.addColorStop(0, 'rgba(255,255,255,' + al + ')');
+					lg.addColorStop(1, 'rgba(160,190,255,0)');
+					ctx.strokeStyle = lg; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+					ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(tx, ty); ctx.stroke();
+					if (m.life > 55) shooters.splice(j, 1);
+				}
+				raf = requestAnimationFrame(draw);
+			}
+
+			function start() { if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); }
+			build(); start();
+
+			var rt;
+			addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { build(); start(); }, 150); });
+			addEventListener('mousemove', function (e) { mx = e.clientX / w - 0.5; my = e.clientY / h - 0.5; }, { passive: true });
+			document.addEventListener('visibilitychange', function () {
+				if (document.hidden) { cancelAnimationFrame(raf); raf = null; } else start();
+			});
 		})();
 
 		// Reveal sections on scroll
